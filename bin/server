@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+
+$stdout.sync = true
+$stderr.sync = true
+
+require 'optparse'
+
+options = {
+  port: 9292,
+  reload: false,
+  seed: false
+}
+
+ARGV.options do |opts|
+  opts.on("-p", "--port=number", Integer)  { |val| options[:port] = val }
+  opts.on("--reload", "Reload code before each request") do |val|
+    options[:reload] = val
+  end
+  opts.on("--seed", "Generate bunch of random seed data") do |val|
+    options[:seed] = val
+  end
+  opts.parse!
+end
+
+root = File.expand_path '../..', __FILE__
+
+$LOAD_PATH.unshift File.join(root, 'lib')
+
+require 'reloader'
+require 'rack/handler/puma'
+
+if options[:reload]
+  if options[:seed]
+    Shotgun.after_fork do
+      require "#{root}/boot"
+      SYSTEM.seed
+    end
+  end
+
+  reloader = Reloader.new do |stack|
+    require "#{root}/boot"
+    stack.run SYSTEM.app
+  end
+
+  Rack::Handler::Puma.run(reloader, {
+    Port: options.fetch(:port),
+    Verbose: true
+  })
+else
+  require "#{root}/boot"
+
+  SYSTEM.seed if options[:seed]
+
+  Rack::Handler::Puma.run(SYSTEM.app, {
+    Port: options.fetch(:port),
+    Verbose: true
+  })
+end
