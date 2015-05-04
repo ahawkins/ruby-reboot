@@ -12,6 +12,8 @@ gem 'mustache', '~> 1.0.1'
 gem 'puma', '~> 2.11.1'
 gem 'shotgun', '~> 0.9.1'
 
+gem 'kramdown', '~> 1.7.0'
+
 group :test do
   gem 'rack-test', '~> 0.6.3'
   gem 'capybara', '~> 2.4.4'

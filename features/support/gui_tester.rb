@@ -13,8 +13,20 @@ class GUITester
     driver.click_on 'Catalog'
   end
 
+  def click_about_link
+    driver.click_on 'About'
+  end
+
+  def click_contact_link
+    driver.click_on 'Contact'
+  end
+
   def click_screencast(title)
     driver.click_on title
+  end
+
+  def html?(html)
+    driver.body.include? html
   end
 
   def says?(text)
@@ -31,6 +43,14 @@ class GUITester
 
   def catalog_button?
     driver.all(:css, "a.catalog.btn").any?
+  end
+
+  def active_link
+    if driver.has_selector? "nav li.active"
+      driver.find(:css, "nav li.active").text.downcase.to_sym
+    else
+      nil
+    end
   end
 
   def length_for(title)
@@ -63,5 +83,9 @@ class GUITester
 
   def marketing_preview_video?
     driver.has_selector? :css, '.marketing-preview'
+  end
+
+  def to_s
+    driver.body.to_s
   end
 end

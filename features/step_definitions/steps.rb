@@ -78,3 +78,29 @@ Then(/^the preview should play$/) do
 
   assert gui.preview_video?(@focused_title), 'No video preview'
 end
+
+When(/^I click the about link$/) do
+  gui.click_about_link
+end
+
+Then(/^I should see a product description$/) do
+  markdown = Kramdown::Document.new(File.read(sys.root.join('pages', 'about.md')))
+  assert gui.html?(markdown.to_html), 'Generated HTML missing'
+end
+
+Then(/^the about link should be selected$/) do
+  assert_equal :about, gui.active_link
+end
+
+When(/^I click the contact us link$/) do
+  gui.click_contact_link
+end
+
+Then(/^I should see the contact information$/) do
+  markdown = Kramdown::Document.new(File.read(sys.root.join('pages', 'contact.md')))
+  assert gui.html?(markdown.to_html), 'Generated HTML missing'
+end
+
+Then(/^the contact us link should be selected$/) do
+  assert_equal :contact, gui.active_link
+end

@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'pathname'
 require 'concord'
 require 'barcelona'
 require 'mustache'
@@ -6,9 +7,12 @@ require 'anima'
 require 'rom'
 require 'inflecto'
 require 'securerandom'
+require 'kramdown'
 
-$LOAD_PATH.unshift File.join(__dir__, 'lib')
-$LOAD_PATH.unshift File.join(__dir__, 'src')
+root = Pathname.new __dir__
+
+$LOAD_PATH.unshift root.join('lib')
+$LOAD_PATH.unshift root.join('src')
 
 Duration = Struct.new :minutes do
   def hours
@@ -146,9 +150,11 @@ end
 require 'views/landing_page_view'
 require 'views/catalog_view'
 require 'views/screencast_view'
+require 'views/about_view'
+require 'views/contact_view'
 
 class Processor
-  include Concord.new(:data_store)
+  include Concord.new(:data_store, :root)
 
   def landing_page(request)
     view = LandingPageView.new({
@@ -184,6 +190,26 @@ class Processor
     end
   end
 
+  def show_about_page(request)
+    view = AboutView.new({
+      document: Kramdown::Document.new(File.read(root.join('pages', 'about.md')))
+    })
+
+    Barcelona::Response.ok do |response|
+      response.html = view.render
+    end
+  end
+
+  def show_contact_page(request)
+    view = ContactView.new({
+      document: Kramdown::Document.new(File.read(root.join('pages', 'contact.md')))
+    })
+
+    Barcelona::Response.ok do |response|
+      response.html = view.render
+    end
+  end
+
   def show_unimplemented_page(request)
     Barcelona::Response.ok do |response|
       response.html = "<h1>Not Implemented Yet :(</h1>"
@@ -191,7 +217,7 @@ class Processor
   end
 end
 
-SystemManager = Struct.new :processor, :app, :data do
+SystemManager = Struct.new :processor, :app, :data, :root do
   def clear
     data.clear
   end
@@ -217,20 +243,23 @@ SystemManager = Struct.new :processor, :app, :data do
 end
 
 SYSTEM = SystemManager.new.tap do |system|
+  system.root = root
+
   system.data = DataStore.new ROM.finalize.env
 
-  system.processor = Processor.new system.data
+  system.processor = Processor.new system.data, system.root
 
   system.app = Barcelona::Mapper.new system.processor do |http|
     http.get '/', :landing_page
     http.get '/catalog', :show_catalog
     http.get '/screencast/:id', :show_screencast
-    http.static '/public', File.join(__dir__, 'public')
+    http.get '/about', :show_about_page
+    http.get '/contact', :show_contact_page
+
+    http.static '/public', system.root.join('public')
 
     # Placeholders
     http.get '/sign_up', :show_unimplemented_page
-    http.get '/about', :show_unimplemented_page
-    http.get '/contact', :show_unimplemented_page
     http.get '/screencast/:id/download', :show_unimplemented_page
   end
 
