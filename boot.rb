@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'pathname'
+require 'delegate'
 require 'concord'
 require 'barcelona'
 require 'mustache'
@@ -21,8 +22,21 @@ require 'data_store'
 require 'processor'
 require 'system_manager'
 
+class Layout < Mustache
+  self.template_path = File.join __dir__, 'src', 'templates'
+
+  def initialize(delegate)
+    super()
+    @context = Mustache::Context.new delegate
+  end
+end
+
 class View < Mustache
   self.template_path = File.join __dir__, 'src', 'templates'
+
+  def render
+    Layout.new(self).render yield: super
+  end
 end
 
 require 'views/landing_page_view'
