@@ -34,6 +34,10 @@ end
 class View < Mustache
   self.template_path = File.join __dir__, 'src', 'templates'
 
+  def year
+    Time.now.year
+  end
+
   def render
     Layout.new(self).render yield: super
   end
