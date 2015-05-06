@@ -5,6 +5,10 @@ class ContactView < View
     @document = document
   end
 
+  def contact_page?
+    true
+  end
+
   def content
     document.to_html
   end

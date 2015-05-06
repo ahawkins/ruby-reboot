@@ -5,6 +5,10 @@ class AboutView < View
     @document = document
   end
 
+  def about_page?
+    true
+  end
+
   def content
     document.to_html
   end

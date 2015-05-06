@@ -1,6 +1,10 @@
 class LandingPageView < View
   attr_reader :screencast, :testimonials
 
+  def home_page?
+    true
+  end
+
   def initialize(screencast: nil, testimonials: [ ])
     @screencast = screencast
     @testimonials = testimonials

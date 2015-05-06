@@ -12,4 +12,8 @@ class CatalogView < View
       Presenter.new item
     end
   end
+
+  def catalog_page?
+    true
+  end
 end

@@ -1,80 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Advanced Ruby screencasts aimed at teaching alternate techniques">
-    <meta name="author" content="Adam Hawkins, Piotr Solnica">
+<section data-screencast="{{title}}">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2>{{title}}</h2>
 
-    <title>RubyReboot - Advanced Ruby Screencasts</title>
+			<p class="lead">
+			<span class="length">{{duration}}</span> - <span class="date">{{date}}</span>
+			</p>
+		</div>
+	</div>
 
-    <!-- Bootstrap core CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-    <!-- Custom styles for this template -->
-    <link href="/public/jumbotron-narrow.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-
-    <div class="container screencast-view" data-screencast="{{title}}">
-      <div class="header clearfix">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation"><a href="/">Home</a></li>
-            <li role="presentation"><a href="/catalog">Catalog</a></li>
-            <li role="presentation"><a href="/about">About</a></li>
-            <li role="presentation"><a href="/contact">Contact</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">RubyReboot</h3>
-      </div>
-
-			<div class="row">
-				<div class="col-lg-12" >
-					<h2>{{title}}</h2>
-
-					<p class="lead">
-						<span class="length">{{duration}}</span> - <span class="date">{{date}}</span>
-					</p>
-				</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe class="embed-responsive-item preview" src="{{preview}}" allowfullscreen=""></iframe>
 			</div>
+		</div>
+	</div>
 
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="embed-responsive embed-responsive-16by9">
-						<iframe class="embed-responsive-item preview" src="{{preview}}" allowfullscreen=""></iframe>
-					</div>
-				</div>
-			</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<p class="summary">{{summary}}</p>
+		</div>
+	</div>
 
-			<div class="row">
-				<div class="col-lg-12">
-					<p class="summary">{{summary}}</p>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-lg-12">
-					<p><a href="/screencast/{{id}}/download" class="download btn btn-primary">Download</a></p>
-				</div>
-			</div>
-
-      <footer class="footer">
-        <p>&copy; Company 2014</p>
-      </footer>
-
-    </div> <!-- /container -->
-
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  </body>
-</html>
+	<div class="row">
+		<div class="col-lg-12">
+			<p><a href="/screencast/{{id}}/download" class="download btn btn-primary">Download</a></p>
+		</div>
+	</div>
+</section>
