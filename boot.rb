@@ -22,32 +22,15 @@ require 'data_store'
 require 'processor'
 require 'system_manager'
 
-class Layout < Mustache
-  self.template_path = File.join __dir__, 'src', 'templates'
-
-  def initialize(delegate)
-    super()
-    @context = Mustache::Context.new delegate
-  end
-end
-
-class View < Mustache
-  self.template_path = File.join __dir__, 'src', 'templates'
-
-  def year
-    Time.now.year
-  end
-
-  def render
-    Layout.new(self).render yield: super
-  end
-end
-
+require 'view'
+require 'views/layout'
 require 'views/landing_page_view'
 require 'views/catalog_view'
 require 'views/screencast_view'
 require 'views/about_view'
 require 'views/contact_view'
+
+View.template_path = Layout.template_path = File.join __dir__, 'src', 'templates'
 
 SYSTEM = SystemManager.new.tap do |system|
   system.root = root
