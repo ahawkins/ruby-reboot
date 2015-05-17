@@ -4,7 +4,7 @@ gem 'concord', '~> 0.1.5'
 gem 'lift', '~> 0.1.0'
 gem 'anima', '~> 0.2.0'
 
-gem 'rom', '~> 0.6.2'
+gem 'rom', '~> 0.7.0'
 gem 'inflecto', '~> 0.0.2'
 
 gem 'barcelona', github: 'ahawkins/barcelona'
